@@ -1,60 +1,82 @@
 #include <stdio.h>
 
 #define VERTICES 1008
-#define INFINITE 0xffffffff
+#define INFINITE 0xfffffff
+
+#define MAX(a, b) ((a) < (b)) ? (b) : (a)
+#define MIN(a, b) ((a) > (b)) ? (b) : (a)
 
 unsigned vert[VERTICES][VERTICES];
+unsigned edges;
+unsigned answer;
+unsigned max_edge;
+
+void solve(void)
+{
+    unsigned acc;
+
+    for (unsigned k = 1; k <= max_edge; k++) {
+        for (unsigned i = 1; i <= max_edge; i++) {
+            for (unsigned j = 1; j <= max_edge; j++) {
+                acc = vert[i][k] + vert[k][j];
+                vert[i][j] = MIN(vert[i][j], acc);
+            }
+        }
+    }
+
+    for (unsigned y = 1; y <= max_edge; y++) {
+        for (unsigned x = y + 1; x <= max_edge; x++)
+            answer += vert[y][x];
+    }
+}
+
+void set_infinite(unsigned limit)
+{
+    for (unsigned y = 1; y <= limit; y++) {
+        for (unsigned x = 1; x <= limit; x++) {
+            if (x != y) {
+                vert[y][x] = INFINITE;
+            }
+        }
+    }
+}
 
 int main(void)
 {
     unsigned cases;
 //    unsigned answer = 0;
     unsigned i, j, w;
-    unsigned edges;
-    unsigned len;
+    for (unsigned e = 1; e < VERTICES; e++) {
+        vert[e][e] = 0;
+    }
+    set_infinite(VERTICES - 1);
 
     scanf("%u", &cases);
     cases++;
-    printf("cases = %u\n", cases);
+//    printf("cases = %u\n", cases);
     for (unsigned cnt = 1; cnt < cases; cnt++) {
         scanf("%u", &edges);
+        max_edge = 0;
         for (unsigned e = 1; e < edges; e++) {
             scanf("%u %u %u", &i, &j, &w);
             vert[i][j] = vert[j][i] = w;
+            max_edge = MAX(max_edge, i);
+            max_edge = MAX(max_edge, j);
         }
-        printf("edges = %u\n", edges);
-        for (unsigned e = 1; e <= edges; e++) {
-            vert[e][e] = INFINITE;
-        }
-        for (unsigned y = 1; y <= edges; y++) {
-            for (unsigned x1 = y + 1; x1 < edges; x1++) {
-                if (vert[y][x1] == 0) {
-                    continue;
-                }
-                for (unsigned x2 = x1 + 1; x2 <= edges; x2++) {
-                    if (vert[y][x2] != 0) {
-                        len = vert[y][x1] + vert[y][x2];
-                        if (vert[x1][x2] == 0 || len < vert[x1][x2]) {
-                            vert[x1][x2] = vert[x2][x1] = len;
-                        }
-                    }
-                }
-            }
-        }
-        for (unsigned y = 1; y <= edges; y++) {
-            for (unsigned x1 = y + 1; x1 <= edges; x1++) {
-                if (vert[y][x1] == 0) {
-                }
-            }
-        }
-//        printf("#%u %u", cnt, answer);
+
+
+//        printf("edges = %u\n", edges);
+        solve();
+        printf("#%u %u\n", cnt, answer);
+        set_infinite(max_edge);
+        answer = 0;
     }
-    for (unsigned x = 1; x <= edges; x++) {
-        for (unsigned y = 1; y <= edges; y++) {
+/*    for (unsigned x = 1; x <= max_edge; x++) {
+        for (unsigned y = 1; y <= max_edge; y++) {
             printf("%u ", vert[x][y]);
         }
         printf("\n");
-    }
+    }*/
 
     return 0;
 }
