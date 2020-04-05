@@ -60,7 +60,7 @@ int main(void)
         for (unsigned e = 1; e < edges; e++) {
             scanf("%u %u %u", &i, &j, &w);
             vert[i][j] = vert[j][i] = w;
-            max_edge = MAX(max_edge, i);
+//            max_edge = MAX(max_edge, i);
             max_edge = MAX(max_edge, j);
         }
 
