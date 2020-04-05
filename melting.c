@@ -68,15 +68,16 @@ int main(void)
 //        printf("edges = %u\n", edges);
         solve();
         printf("#%u %u\n", cnt, answer);
+/*        for (unsigned x = 1; x <= max_edge; x++) {
+            for (unsigned y = 1; y <= max_edge; y++) {
+                printf("%u ", vert[x][y]);
+            }
+            printf("\n");
+        }*/
+
         set_infinite(max_edge);
         answer = 0;
     }
-/*    for (unsigned x = 1; x <= max_edge; x++) {
-        for (unsigned y = 1; y <= max_edge; y++) {
-            printf("%u ", vert[x][y]);
-        }
-        printf("\n");
-    }*/
 
     return 0;
 }
