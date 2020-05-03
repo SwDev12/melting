@@ -41,9 +41,9 @@ void solving(void)
                     put.len_to_source = get.len_to_source + tmp.w;
                     visited[put.to] = 1;
                     stack_elem[stack_top++] = put;
-                    if (v < put.to) {
+//                    if (v < put.to) {
                         answer += put.len_to_source;
-                    }
+//                    }
 //                    printf("load next %u, stack_top = %u, path to sourcce = %u\n", put.to, stack_top, put.len_to_source);
                 }
             }
@@ -53,7 +53,7 @@ void solving(void)
             visited[x] = 0;
         }
     }
-
+    answer /= 2;
     stack_top = 0;
 }
 
