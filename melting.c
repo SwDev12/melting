@@ -26,14 +26,14 @@ void solving(void)
     struct elem put, get;
     answer = 0;
 
-    for (unsigned v = 1; v <= vertices; v++) {
+    for (register unsigned v = 1; v <= vertices; v++) {
         put.to = v; put.len_to_source = 0;
         visited[v] = 1;
         stack_elem[stack_top++] = put;
         while (stack_top != 0) {
             get = stack_elem[--stack_top];
 //            printf("take hall %u, stack_top = %u\n", get.to, stack_top);
-            for (unsigned edges = 0; edges < links[get.to]; edges++) {
+            for (register unsigned edges = 0; edges < links[get.to]; edges++) {
                 tmp = table[get.to][edges];
 //                printf("candidate to = %u\n", tmp.to);
                 if (visited[tmp.to] == 0) {
@@ -49,7 +49,7 @@ void solving(void)
             }
 //            printf("\tfinish for %u\n", get.to);
         }
-        for (unsigned x = 1; x <= vertices; x++) {
+        for (register unsigned x = 1; x <= vertices; x++) {
             visited[x] = 0;
         }
     }
